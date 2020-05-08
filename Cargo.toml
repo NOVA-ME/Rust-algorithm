@@ -1,5 +1,5 @@
 [package]
-name = "Rust-algorithm"
+name = "rust-algorithm"
 version = "0.1.0"
 authors = ["NOVA-ME <xi@whatsoo.org>"]
 edition = "2018"
