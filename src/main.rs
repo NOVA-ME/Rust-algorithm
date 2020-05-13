@@ -43,7 +43,7 @@ fn main() {
             values,
             spend.as_micros()
         ),
-        Err(_) => panic!("时间错误"),
+        Err(_) => panic!("时间错误 "),
     }
     leetcode_middle::three_num(three_num_test);
 }
