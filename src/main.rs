@@ -46,4 +46,7 @@ fn main() {
         Err(_) => panic!("时间错误 "),
     }
     leetcode_middle::three_num(three_num_test);
+    let nums = vec![-5,-4,-3,-2,-1,0,0,1,2,3,4,5];
+    let res = leetcode_middle::four_nums_sum(nums, 0);
+    println!("{:?}", res);
 }
