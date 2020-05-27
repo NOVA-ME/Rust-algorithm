@@ -19,32 +19,24 @@ use std::collections::hash_map::HashMap;
 //      请注意，你的答案必须是 子串 的长度，"pwke" 是一个子序列，不是子串。
 
 pub fn longest_sub_str(s: String) -> i32 {
-    if s == "" {
-        return 0;
+    let raw_len = s.len();
+    if raw_len <= 1 {
+        return raw_len as i32;
     }
-    if s.len() <= 1 {
-        return 1;
-    }
-    let mut map: HashMap<char, usize> = HashMap::new();
-    let chars = s.chars();
+    let mut map: HashMap<u8, i32> = HashMap::new();
     let mut max_len = 0;
     let mut cursor_start = 0;
-    let mut len;
-    for (i, v) in chars.into_iter().enumerate() {
+    let mut len = 0;
+    for (i, v) in s.bytes().enumerate() {
         let cursor_end = i as i32;
-        let idx;
-        match map.get(&v) {
-            Some(&t) => idx = t as i32,
-            None => idx = -1,
-        }
-        if idx >= cursor_start {
-            len = cursor_end - cursor_start;
-            cursor_start = idx as i32 + 1;
-        } else {
-            len = cursor_end - cursor_start + 1;
-        }
-        max_len = std::cmp::max(len, max_len);
-        map.insert(v, i);
+        let idx = match map.get(&v) {
+            Some(&t) => t,
+            None => -1,
+        };
+        cursor_start = cursor_start.max(idx);
+        len = cursor_end - cursor_start + 1;
+        max_len = len.max(max_len);
+        map.insert(v, cursor_end + 1);
     }
     max_len
 }
@@ -55,35 +47,19 @@ pub fn longest_sub_str(s: String) -> i32 {
 // 来源：力扣（LeetCode）
 // 著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。
 pub fn longest_sub_str_better(s: String) -> i32 {
-    if &s == "" {
-        return 0 as i32;
+    let raw_len = s.len();
+    if raw_len <= 1 {
+        return raw_len as i32;
     }
-    let s = &s.trim();
-    let (mut str_s, mut str_e, mut length, mut result) = (0, 0, 0, 0);
-    let mut char_map: Vec<i32> = vec![-1; 128];
-    let str_len = s.len();
-    if str_len <= 1 {
-        return 1 as i32;
+    let mut max_len = 0;
+    let mut index: Vec<i32> = vec![-1; 128];
+    let mut start = 0;
+    for (end, c) in s.bytes().enumerate() {
+        start = index[c as usize].max(start);
+        max_len = max_len.max((end as i32) - start + 1);
+        index[c as usize] = (end + 1) as i32;
     }
-    while str_e < str_len {
-        let mut cur_char = '0';
-        // .chars将&str转化为Chars(chars的迭代器)
-        for c in s[str_e..str_e + 1].chars() {
-            cur_char = c;
-        }
-        let cur_char_index = cur_char as usize - 0 as usize;
-        // println!("The current char is {}, converted index is {}.", cur_char, cur_char_index);
-        if char_map[cur_char_index] >= str_s as i32 {
-            str_s = (char_map[cur_char_index] + 1) as usize;
-            length = (str_e - str_s) as i32;
-        }
-        char_map[cur_char_index] = str_e as i32;
-        length += 1;
-        str_e += 1;
-        result = std::cmp::max(length, result);
-        // println!("The str_e is {}, length is {}, result is {}.", str_e, length, result);
-    }
-    result
+    max_len
 }
 
 // 给你一个包含 n 个整数的数组 nums，判断 nums 中是否存在三个元素 a，b，c ，使得 a + b + c = 0 ？请你找出所有满足条件且不重复的三元组。
