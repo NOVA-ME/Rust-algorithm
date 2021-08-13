@@ -3,6 +3,7 @@ use std::time::SystemTime;
 mod leetcode_middle;
 mod leetcode_simple;
 mod sort;
+
 fn main() {
     let num_ary = vec![9, 8, 7, 6, 5, 4, 3, 2, 1, 0, 1, 2, 3];
     let three_num_test = vec![-1, 0, 1, 2, -1, -4];
@@ -10,7 +11,6 @@ fn main() {
         "pwwkew", "abcabcbb", "aaaaaaa", "ausd", " ", "aab", "cdd", "abba", "dvdf", "abbbc",
         "tmmzuxt", "abbcsef",
     ];
-    
     sort::bubble_sort(&mut num_ary.clone());
     sort::select_sort(&mut num_ary.clone());
     sort::insert_sort(&mut num_ary.clone());
