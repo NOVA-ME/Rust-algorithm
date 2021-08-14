@@ -11,6 +11,7 @@ fn main() {
         "pwwkew", "abcabcbb", "aaaaaaa", "ausd", " ", "aab", "cdd", "abba", "dvdf", "abbbc",
         "tmmzuxt", "abbcsef",
     ];
+    
     sort::bubble_sort(&mut num_ary.clone());
     sort::select_sort(&mut num_ary.clone());
     sort::insert_sort(&mut num_ary.clone());
